@@ -570,11 +570,11 @@ Work through these in order. Each phase must be independently testable before mo
 - [x] `brazier trigger` — manually trigger a named project
 
 ### Phase 8 — brazier-ts SDK
-- [ ] Port all Go SDK primitives to TypeScript
-- [ ] Same stdout protobuf contract via `protobufjs` or `@bufbuild/protobuf`
-- [ ] Condition primitives: `onBranch`, `onTag`, `onEvent`
-- [ ] Write unit tests
-- [ ] Write example `Brazierfile.ts` and example workflow file
+- [x] Port all Go SDK primitives to TypeScript
+- [x] Same stdout protobuf contract via `@bufbuild/protobuf`
+- [x] Condition primitives: `onBranch`, `onTag`, `onEvent`
+- [x] Write unit tests
+- [x] Write example `Brazierfile.ts` and example workflow file
 
 ### Phase 9 — Web app
 - [ ] gRPC-web client setup with `connectrpc`
