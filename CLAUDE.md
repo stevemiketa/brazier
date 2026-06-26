@@ -544,17 +544,17 @@ Work through these in order. Each phase must be independently testable before mo
 - [x] Job timeout enforcement in agent
 
 ### Phase 5 — Artifact storage + secrets
-- [ ] `ArtifactStore` interface
-- [ ] `LocalStore` implementation
-- [ ] `S3Store` implementation (AWS S3 + S3-compatible)
-- [ ] `GCSStore` implementation
-- [ ] `ArtifactoryStore` implementation
-- [ ] `SecretBackend` interface
-- [ ] `DBSecretBackend` implementation (AES-256-GCM, key from `BRAZIER_SECRET_KEY` env)
-- [ ] `AWSSSMBackend` implementation
-- [ ] `GCPSecretBackend` implementation
-- [ ] `VaultSecretBackend` implementation
-- [ ] Secret injection into `JobDispatch` env at dispatch time
+- [x] `ArtifactStore` interface
+- [x] `LocalStore` implementation
+- [x] `S3Store` implementation (AWS S3 + S3-compatible)
+- [x] `GCSStore` implementation
+- [x] `ArtifactoryStore` implementation
+- [x] `SecretBackend` interface
+- [x] `DBSecretBackend` implementation (AES-256-GCM, key from `BRAZIER_SECRET_KEY` env)
+- [x] `AWSSSMBackend` implementation
+- [x] `GCPSecretBackend` implementation
+- [x] `VaultSecretBackend` implementation
+- [x] Secret injection into `JobDispatch` env at dispatch time
 
 ### Phase 6 — Auth
 - [ ] API key generation, hashing, storage, validation middleware
