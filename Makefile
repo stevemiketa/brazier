@@ -35,7 +35,9 @@ $(PROTO_GENS): $(PROTO_SRCS)
 test: $(COVERAGE_OUT)
 $(COVERAGE_OUT): $(GO_SRCS)
 	go test -coverprofile=$(COVERAGE_OUT) ./...
+	cd sdk/go && go test ./...
 
 .PHONY: tidy
 tidy:
 	go mod tidy
+	cd sdk/go && go mod tidy
