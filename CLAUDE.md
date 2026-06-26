@@ -522,15 +522,15 @@ Work through these in order. Each phase must be independently testable before mo
 - [x] Write example `Brazierfile.go` and example workflow file
 
 ### Phase 3 — Master service core
-- [ ] GitHub webhook HTTP handler with HMAC validation
-- [ ] Brazierfile executor (subprocess, stdout capture, protobuf deserialization)
-- [ ] Workflow loader (go-git clone/fetch, semver tag resolution, git ref fallback, DAG execution)
-- [ ] Pipeline run state machine (pending → running → success/failed/cancelled)
-- [ ] Topological sort scheduler with continue-on-failure strategy
-- [ ] Conditional edge evaluation at scheduling time
-- [ ] In-process event bus (Go channels)
-- [ ] Database layer: interface + SQLite implementation
-- [ ] Database layer: PostgreSQL implementation (configured via `DATABASE_URL`)
+- [x] GitHub webhook HTTP handler with HMAC validation
+- [x] Brazierfile executor (subprocess, stdout capture, protobuf deserialization)
+- [x] Workflow loader (go-git clone/fetch, semver tag resolution, git ref fallback, DAG execution)
+- [x] Pipeline run state machine (pending → running → success/failed/cancelled)
+- [x] Topological sort scheduler with continue-on-failure strategy
+- [x] Conditional edge evaluation at scheduling time
+- [x] In-process event bus (Go channels)
+- [x] Database layer: interface + SQLite implementation
+- [x] Database layer: PostgreSQL implementation (configured via `DATABASE_URL`)
 
 ### Phase 4 — Agent + runner abstraction
 - [ ] Agent gRPC server (`AgentService.Register` persistent stream)
