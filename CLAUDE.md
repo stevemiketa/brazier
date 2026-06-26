@@ -533,15 +533,15 @@ Work through these in order. Each phase must be independently testable before mo
 - [x] Database layer: PostgreSQL implementation (configured via `DATABASE_URL`)
 
 ### Phase 4 — Agent + runner abstraction
-- [ ] Agent gRPC server (`AgentService.Register` persistent stream)
-- [ ] Agent registry in master (track connected agents, capacity)
-- [ ] `Runner` interface
-- [ ] `AgentRunner` implementation (push `JobDispatch` over persistent stream)
-- [ ] `NomadRunner` stub
-- [ ] `K8sRunner` stub
-- [ ] Agent job executor (raw process, stdout/stderr streaming as `LogChunk`)
-- [ ] Agent `JobResult` reporting
-- [ ] Job timeout enforcement in agent
+- [x] Agent gRPC server (`AgentService.Register` persistent stream)
+- [x] Agent registry in master (track connected agents, capacity)
+- [x] `Runner` interface
+- [x] `AgentRunner` implementation (push `JobDispatch` over persistent stream)
+- [x] `NomadRunner` stub
+- [x] `K8sRunner` stub
+- [x] Agent job executor (raw process, stdout/stderr streaming as `LogChunk`)
+- [x] Agent `JobResult` reporting
+- [x] Job timeout enforcement in agent
 
 ### Phase 5 — Artifact storage + secrets
 - [ ] `ArtifactStore` interface
