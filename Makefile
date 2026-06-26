@@ -20,6 +20,7 @@ setup:
 	go install google.golang.org/protobuf/cmd/protoc-gen-go@latest
 	go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@latest
 	go get modernc.org/sqlite github.com/lib/pq github.com/spf13/cobra
+	cd sdk/ts && npm install
 
 .PHONY: proto
 proto: $(PROTO_GENS)
@@ -34,9 +35,12 @@ $(PROTO_GENS): $(PROTO_SRCS)
 
 .PHONY: test
 test: $(COVERAGE_OUT)
+TS_SRCS := $(shell find sdk/ts/src -name '*.ts')
+
 $(COVERAGE_OUT): $(GO_SRCS)
 	go test -coverprofile=$(COVERAGE_OUT) ./...
 	cd sdk/go && go test ./...
+	cd sdk/ts && npm test
 
 .PHONY: tidy
 tidy:
