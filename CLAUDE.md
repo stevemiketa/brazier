@@ -563,11 +563,11 @@ Work through these in order. Each phase must be independently testable before mo
 - [x] Auth middleware for gRPC API
 
 ### Phase 7 — CLI
-- [ ] `brazier run` — Brazierfile detection, execution, PipelineSpec submission
-- [ ] `brazier logs` — stream logs via `BrazierAPI.StreamLogs`
-- [ ] `brazier status` — poll and display run + node states
-- [ ] `brazier agent start` — start bare metal agent, connect to master
-- [ ] `brazier trigger` — manually trigger a named project
+- [x] `brazier run` — Brazierfile detection, execution, PipelineSpec submission
+- [x] `brazier logs` — stream logs via `BrazierAPI.StreamLogs`
+- [x] `brazier status` — poll and display run + node states
+- [x] `brazier agent start` — start bare metal agent, connect to master
+- [x] `brazier trigger` — manually trigger a named project
 
 ### Phase 8 — brazier-ts SDK
 - [ ] Port all Go SDK primitives to TypeScript

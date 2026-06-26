@@ -19,7 +19,7 @@ setup:
 	brew install protobuf
 	go install google.golang.org/protobuf/cmd/protoc-gen-go@latest
 	go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@latest
-	go get modernc.org/sqlite github.com/lib/pq
+	go get modernc.org/sqlite github.com/lib/pq github.com/spf13/cobra
 
 .PHONY: proto
 proto: $(PROTO_GENS)
