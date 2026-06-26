@@ -514,12 +514,12 @@ Work through these in order. Each phase must be independently testable before mo
 - [x] Write unit tests for protobuf round-trip serialization in Go
 
 ### Phase 2 — brazier-go SDK
-- [ ] Implement `NewPipeline`, `UseWorkflow`, `Job`, `Stage`, `DependsOn`, `When`, `Run`
-- [ ] Implement `NewWorkflow`, `Node`, `RunWorkflow` (for workflows repo files)
-- [ ] `Run()` marshals PipelineSpec to protobuf, writes to stdout, exits 0
-- [ ] Implement condition primitives: `OnBranch`, `OnTag`, `OnEvent`
-- [ ] Write unit tests for DAG construction, dependency resolution, serialization
-- [ ] Write example `Brazierfile.go` and example workflow file
+- [x] Implement `NewPipeline`, `UseWorkflow`, `Job`, `Stage`, `DependsOn`, `When`, `Run`
+- [x] Implement `NewWorkflow`, `Node`, `RunWorkflow` (for workflows repo files)
+- [x] `Run()` marshals PipelineSpec to protobuf, writes to stdout, exits 0
+- [x] Implement condition primitives: `OnBranch`, `OnTag`, `OnEvent`
+- [x] Write unit tests for DAG construction, dependency resolution, serialization
+- [x] Write example `Brazierfile.go` and example workflow file
 
 ### Phase 3 — Master service core
 - [ ] GitHub webhook HTTP handler with HMAC validation
