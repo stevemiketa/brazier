@@ -557,10 +557,10 @@ Work through these in order. Each phase must be independently testable before mo
 - [x] Secret injection into `JobDispatch` env at dispatch time
 
 ### Phase 6 — Auth
-- [ ] API key generation, hashing, storage, validation middleware
-- [ ] GitHub OAuth2 flow (optional, configured via env vars)
-- [ ] Session token issuance and validation
-- [ ] Auth middleware for gRPC API
+- [x] API key generation, hashing, storage, validation middleware
+- [x] GitHub OAuth2 flow (optional, configured via env vars)
+- [x] Session token issuance and validation
+- [x] Auth middleware for gRPC API
 
 ### Phase 7 — CLI
 - [ ] `brazier run` — Brazierfile detection, execution, PipelineSpec submission
