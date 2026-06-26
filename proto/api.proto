@@ -1,0 +1,70 @@
+syntax = "proto3";
+
+package brazier;
+
+option go_package = "github.com/brazier/brazier/proto/gen;brazierv1";
+
+import "pipeline.proto";
+import "runner.proto";
+
+message RunID {
+  string id = 1;
+}
+
+message Empty {}
+
+message RunStatus {
+  string          run_id  = 1;
+  string          state   = 2;
+  repeated string nodes   = 3;
+}
+
+message ListRunsRequest {
+  string project = 1;
+  int32  limit   = 2;
+}
+
+message RunList {
+  repeated RunStatus runs = 1;
+}
+
+message AgentInfo {
+  string          agent_id = 1;
+  string          name     = 2;
+  repeated string labels   = 3;
+  int32           capacity = 4;
+  int32           active   = 5;
+}
+
+message AgentList {
+  repeated AgentInfo agents = 1;
+}
+
+message WorkflowList {
+  repeated string names = 1;
+}
+
+message WorkflowDAG {
+  string          name    = 1;
+  string          version = 2;
+  repeated Node   nodes   = 3;
+}
+
+service BrazierAPI {
+  rpc SubmitPipeline (PipelineSpec)    returns (RunID);
+  rpc GetRun         (RunID)           returns (RunStatus);
+  rpc ListRuns       (ListRunsRequest) returns (RunList);
+  rpc CancelRun      (RunID)           returns (Empty);
+  rpc StreamLogs     (RunID)           returns (stream LogChunk);
+
+  rpc ListAgents     (Empty)           returns (AgentList);
+
+  rpc ListWorkflows  (Empty)           returns (WorkflowList);
+  rpc GetWorkflow    (WorkflowRef)     returns (WorkflowDAG);
+}
+
+service AgentService {
+  rpc Register  (AgentRegistration)   returns (stream JobDispatch);
+  rpc SendLog   (stream LogChunk)     returns (Empty);
+  rpc SendResult(JobResult)           returns (Empty);
+}

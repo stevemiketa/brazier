@@ -1,0 +1,40 @@
+syntax = "proto3";
+
+package brazier;
+
+option go_package = "github.com/brazier/brazier/proto/gen;brazierv1";
+
+import "pipeline.proto";
+
+// Master → Agent: dispatch a job for execution.
+message JobDispatch {
+  string          job_id = 1;
+  string          run_id = 2;
+  JobSpec         spec   = 3;
+  repeated EnvVar env    = 4;
+}
+
+// Agent → Master: streaming log output.
+message LogChunk {
+  string job_id    = 1;
+  string run_id    = 2;
+  int64  timestamp = 3;
+  string line      = 4;
+  bool   stderr    = 5;
+}
+
+// Agent → Master: job completion.
+message JobResult {
+  string job_id    = 1;
+  string run_id    = 2;
+  bool   success   = 3;
+  int32  exit_code = 4;
+}
+
+// Agent → Master: registration on connect.
+message AgentRegistration {
+  string          agent_id = 1;
+  string          name     = 2;
+  repeated string labels   = 3;
+  int32           capacity = 4;
+}
