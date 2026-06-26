@@ -1,0 +1,46 @@
+syntax = "proto3";
+
+package brazier;
+
+option go_package = "github.com/brazier/brazier/proto/gen;brazierv1";
+
+// Top-level output of any Brazierfile execution.
+message PipelineSpec {
+  WorkflowRef   workflow = 1;
+  repeated Node nodes    = 2;
+}
+
+// Reference to a named workflow DAG in the workflows repo.
+message WorkflowRef {
+  string name    = 1;
+  string version = 2;
+}
+
+// A node in the pipeline DAG — either a Job or a Stage.
+message Node {
+  string          id         = 1;
+  repeated string depends_on = 2;
+  repeated string conditions = 3;
+  oneof kind {
+    JobSpec   job   = 4;
+    StageSpec stage = 5;
+  }
+}
+
+// A single executable unit dispatched to one agent.
+message JobSpec {
+  repeated string commands       = 1;
+  repeated EnvVar env            = 2;
+  repeated string secrets        = 3;
+  repeated string artifact_paths = 4;
+}
+
+// A stage: a named set of jobs that run in parallel.
+message StageSpec {
+  repeated Node jobs = 1;
+}
+
+message EnvVar {
+  string key   = 1;
+  string value = 2;
+}
