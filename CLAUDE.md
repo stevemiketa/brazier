@@ -577,13 +577,13 @@ Work through these in order. Each phase must be independently testable before mo
 - [x] Write example `Brazierfile.ts` and example workflow file
 
 ### Phase 9 — Web app
-- [ ] gRPC-web client setup with `connectrpc`
-- [ ] Auth (API key input, GitHub OAuth2 flow)
-- [ ] Dashboard — run list with status
-- [ ] Run detail — DAG visualization, live log streaming
+- [x] gRPC-web client setup with `connectrpc`
+- [x] Auth (API key input, GitHub OAuth2 flow)
+- [x] Dashboard — run list with status
+- [x] Run detail — DAG visualization, live log streaming
 - [ ] Project settings — webhook config, secrets
-- [ ] Workflow browser
-- [ ] Agent management view
+- [x] Workflow browser
+- [x] Agent management view
 
 ---
 
