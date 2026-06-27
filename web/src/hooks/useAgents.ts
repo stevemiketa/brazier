@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
 import type { AgentInfo } from "../lib/brazier_connect";
+import { apiClient } from "../lib/client";
 
 export interface UseAgentsResult {
   agents: AgentInfo[];
@@ -17,7 +18,6 @@ export function useAgents(): UseAgentsResult {
     setLoading(true);
     setError(null);
     try {
-      const { apiClient } = await import("../lib/client");
       const resp = await apiClient.listAgents({});
       setAgents(resp.agents ?? []);
     } catch (e) {

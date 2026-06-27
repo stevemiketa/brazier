@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import type { WorkflowDAG } from "../lib/brazier_connect";
 import { DAGView } from "../components/DAGView";
+import { apiClient } from "../lib/client";
 
 export function WorkflowsPage() {
   const [names, setNames] = useState<string[]>([]);
@@ -12,7 +13,6 @@ export function WorkflowsPage() {
   useEffect(() => {
     async function load() {
       try {
-        const { apiClient } = await import("../lib/client");
         const resp = await apiClient.listWorkflows({});
         setNames(resp.names ?? []);
       } catch (e) {
@@ -27,7 +27,6 @@ export function WorkflowsPage() {
     setDag(null);
     setLoading(true);
     try {
-      const { apiClient } = await import("../lib/client");
       const resp = await apiClient.getWorkflow({ name, version: "latest" });
       setDag(resp);
     } catch (e) {
