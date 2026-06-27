@@ -18,10 +18,19 @@ type contextKey string
 const contextKeyAPIKey contextKey = "api_key"
 const contextKeySession contextKey = "session"
 
+// AuthEnabled controls whether auth middleware enforces credentials.
+// Set to false to disable auth (e.g. during local development).
+var AuthEnabled = true
+
 // HTTPMiddleware wraps an http.Handler, requiring a valid API key or session
 // token in the Authorization header ("Bearer <token>").
 func HTTPMiddleware(keys *APIKeyStore, sessions *SessionStore, next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		if !AuthEnabled {
+			next.ServeHTTP(w, r)
+			return
+		}
+
 		token := extractBearer(r.Header.Get("Authorization"))
 		if token == "" {
 			http.Error(w, "unauthorized", http.StatusUnauthorized)
@@ -56,6 +65,9 @@ func HTTPMiddleware(keys *APIKeyStore, sessions *SessionStore, next http.Handler
 // GRPCUnaryInterceptor validates the Authorization metadata on every unary RPC.
 func GRPCUnaryInterceptor(keys *APIKeyStore, sessions *SessionStore) grpc.UnaryServerInterceptor {
 	return func(ctx context.Context, req any, _ *grpc.UnaryServerInfo, handler grpc.UnaryHandler) (any, error) {
+		if !AuthEnabled {
+			return handler(ctx, req)
+		}
 		if err := validateGRPC(ctx, keys, sessions); err != nil {
 			return nil, err
 		}
@@ -66,6 +78,9 @@ func GRPCUnaryInterceptor(keys *APIKeyStore, sessions *SessionStore) grpc.UnaryS
 // GRPCStreamInterceptor validates the Authorization metadata on every streaming RPC.
 func GRPCStreamInterceptor(keys *APIKeyStore, sessions *SessionStore) grpc.StreamServerInterceptor {
 	return func(srv any, ss grpc.ServerStream, _ *grpc.StreamServerInfo, handler grpc.StreamHandler) error {
+		if !AuthEnabled {
+			return handler(srv, ss)
+		}
 		if err := validateGRPC(ss.Context(), keys, sessions); err != nil {
 			return err
 		}

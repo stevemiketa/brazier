@@ -3,6 +3,7 @@ import { StatusBadge } from "../components/StatusBadge";
 import { DAGView } from "../components/DAGView";
 import { LogStream } from "../components/LogStream";
 import type { RunStatus } from "../lib/brazier_connect";
+import { apiClient } from "../lib/client";
 
 interface Props {
   runId: string;
@@ -17,7 +18,6 @@ export function RunDetailPage({ runId, onBack }: Props) {
     let cancelled = false;
     async function load() {
       try {
-        const { apiClient } = await import("../lib/client");
         const resp = await apiClient.getRun({ id: runId });
         if (!cancelled) setRun(resp);
       } catch (e) {

@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import type { LogChunk } from "../lib/brazier_connect";
+import { apiClient } from "../lib/client";
 
 interface Props {
   runId: string;
@@ -15,7 +16,6 @@ export function LogStream({ runId }: Props) {
 
     async function stream() {
       try {
-        const { apiClient } = await import("../lib/client");
         for await (const chunk of apiClient.streamLogs({ id: runId })) {
           if (cancelled) break;
           setLines((prev) => [...prev, chunk]);

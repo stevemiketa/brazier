@@ -12,6 +12,7 @@ import (
 	"syscall"
 
 	"github.com/brazier/brazier/internal/api"
+	"github.com/brazier/brazier/internal/auth"
 	"github.com/brazier/brazier/internal/bus"
 	"github.com/brazier/brazier/internal/db"
 	"github.com/brazier/brazier/internal/pipeline"
@@ -48,6 +49,9 @@ func run() error {
 		return fmt.Errorf("open db: %w", err)
 	}
 	defer store.Close()
+
+	// Disable auth for local development.
+	auth.AuthEnabled = false
 
 	// --- Core subsystems ---
 	eventBus := bus.New()

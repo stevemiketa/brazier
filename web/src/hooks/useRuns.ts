@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
 import type { RunStatus } from "../lib/brazier_connect";
+import { apiClient } from "../lib/client";
 
 // In production these fetch via the gRPC-web client.
 // We export a thin hook so pages don't depend on transport details.
@@ -20,8 +21,6 @@ export function useRuns(project: string, limit = 20): UseRunsResult {
     setLoading(true);
     setError(null);
     try {
-      // Dynamically import client to avoid issues in test environments.
-      const { apiClient } = await import("../lib/client");
       const resp = await apiClient.listRuns({ project, limit });
       setRuns(resp.runs ?? []);
     } catch (e) {

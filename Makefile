@@ -25,7 +25,7 @@ PROTO_GENS := $(GEN_DIR)/pipeline.pb.go $(GEN_DIR)/runner.pb.go $(GEN_DIR)/api.p
 .PHONY: setup
 setup: $(DIRS)
 	brew install protobuf
-	npm install -g pm2
+	npm install pm2
 	go install google.golang.org/protobuf/cmd/protoc-gen-go@latest
 	go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@latest
 	go get modernc.org/sqlite github.com/lib/pq github.com/spf13/cobra
