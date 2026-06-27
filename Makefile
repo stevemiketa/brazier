@@ -24,7 +24,8 @@ PROTO_GENS := $(GEN_DIR)/pipeline.pb.go $(GEN_DIR)/runner.pb.go $(GEN_DIR)/api.p
 # Install all build/codegen tools
 .PHONY: setup
 setup: $(DIRS)
-	brew install protobuf hivemind
+	brew install protobuf
+	npm install -g pm2
 	go install google.golang.org/protobuf/cmd/protoc-gen-go@latest
 	go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@latest
 	go get modernc.org/sqlite github.com/lib/pq github.com/spf13/cobra
@@ -74,14 +75,18 @@ $(BINS): $(GO_SRCS)
 web-dev:
 	cd web && npm install && npm run dev
 
-# Run master + web UI concurrently (requires: brew install hivemind or foreman)
+# Run master + web UI via pm2 (npm install -g pm2)
 .PHONY: dev
 dev:
-	@command -v hivemind >/dev/null 2>&1 || { echo "install hivemind: brew install hivemind"; exit 1; }
-	hivemind Procfile
+	pm2 start ecosystem.config.js
 
-Procfile:
-	@printf 'master: go run ./cmd/master\nweb: cd web && npm run dev\n' > Procfile
+.PHONY: dev-stop
+dev-stop:
+	pm2 stop ecosystem.config.js
+
+.PHONY: dev-logs
+dev-logs:
+	pm2 logs
 
 print-%:
 	@echo $* = $($*)
