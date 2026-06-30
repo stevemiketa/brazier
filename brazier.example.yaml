@@ -1,0 +1,57 @@
+# Example master service configuration.
+#
+# Copy to brazier.yaml (or point BRAZIER_CONFIG at a custom path) and edit
+# as needed. Any field left out keeps its default — see
+# internal/config/config.go for the full default set.
+#
+# Credentials and other secrets are NOT configured here; they are read from
+# the environment at startup:
+#   DATABASE_URL          - Postgres connection string (omit to use SQLite)
+#   BRAZIER_SECRET_KEY    - AES-256 master key for the "db" secret backend
+#   GITHUB_WEBHOOK_SECRET - GitHub webhook HMAC secret
+#   GITHUB_CLIENT_ID      - GitHub OAuth2 app client ID (optional)
+#   GITHUB_CLIENT_SECRET  - GitHub OAuth2 app client secret (optional)
+
+server:
+  grpc_port: "9000"
+  http_port: "8080"
+
+db:
+  backend: sqlite       # sqlite | postgres
+  sqlite_path: brazier.db
+
+secrets:
+  backend: db           # db | aws-ssm | gcp | vault
+  aws_ssm:
+    prefix: /brazier/
+  gcp:
+    project_id: ""
+  vault:
+    addr: ""
+    mount: secret
+    prefix: brazier/
+
+artifacts:
+  backend: local         # local | s3 | gcs | artifactory
+  local_path: ./artifacts
+  s3:
+    bucket: ""
+    prefix: ""
+    endpoint: ""
+  gcs:
+    bucket: ""
+    prefix: ""
+  artifactory:
+    base_url: ""
+
+runner:
+  type: agent             # agent | nomad | k8s
+  nomad:
+    addr: ""
+  k8s:
+    namespace: brazier
+    image: ""
+
+workflows:
+  repo_url: ""
+  cache_dir: ""

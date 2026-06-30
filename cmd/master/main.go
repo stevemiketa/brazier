@@ -14,6 +14,7 @@ import (
 	"github.com/brazier/brazier/internal/api"
 	"github.com/brazier/brazier/internal/auth"
 	"github.com/brazier/brazier/internal/bus"
+	"github.com/brazier/brazier/internal/config"
 	"github.com/brazier/brazier/internal/db"
 	"github.com/brazier/brazier/internal/pipeline"
 	"github.com/brazier/brazier/internal/registry"
@@ -33,17 +34,24 @@ func run() error {
 	ctx, cancel := signal.NotifyContext(context.Background(), syscall.SIGINT, syscall.SIGTERM)
 	defer cancel()
 
+	// --- Configuration ---
+	configPath := os.Getenv("BRAZIER_CONFIG")
+	if configPath == "" {
+		configPath = "brazier.yaml"
+	}
+	cfg, err := config.LoadOptional(configPath)
+	if err != nil {
+		return fmt.Errorf("load config: %w", err)
+	}
+
 	// --- Database ---
+	// DATABASE_URL carries credentials, so it stays an env var rather than
+	// living in the config file.
 	var store db.DB
-	var err error
 	if dbURL := os.Getenv("DATABASE_URL"); dbURL != "" {
 		store, err = db.OpenPostgres(dbURL)
 	} else {
-		dbPath := os.Getenv("BRAZIER_DB_PATH")
-		if dbPath == "" {
-			dbPath = "brazier.db"
-		}
-		store, err = db.OpenSQLite(dbPath)
+		store, err = db.OpenSQLite(cfg.DB.SQLitePath)
 	}
 	if err != nil {
 		return fmt.Errorf("open db: %w", err)
@@ -64,10 +72,7 @@ func run() error {
 	mgr := pipeline.NewManager(store, eventBus, sched)
 
 	// --- gRPC server ---
-	grpcPort := os.Getenv("BRAZIER_PORT")
-	if grpcPort == "" {
-		grpcPort = "9000"
-	}
+	grpcPort := cfg.Server.GRPCPort
 	lis, err := net.Listen("tcp", ":"+grpcPort)
 	if err != nil {
 		return fmt.Errorf("listen grpc: %w", err)
@@ -78,11 +83,9 @@ func run() error {
 	pb.RegisterAgentServiceServer(grpcSrv, api.NewAgentServer(reg, store))
 
 	// --- HTTP server (webhook + future web static) ---
-	httpPort := os.Getenv("BRAZIER_HTTP_PORT")
-	if httpPort == "" {
-		httpPort = "8080"
-	}
+	httpPort := cfg.Server.HTTPPort
 
+	// GITHUB_WEBHOOK_SECRET is a credential, so it stays an env var.
 	webhookSecret := os.Getenv("GITHUB_WEBHOOK_SECRET")
 	mux := http.NewServeMux()
 	mux.Handle("/webhook", webhook.New(webhookSecret, func(e webhook.TriggerEvent) {
